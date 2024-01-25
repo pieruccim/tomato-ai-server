@@ -4,83 +4,168 @@ from django.urls import reverse_lazy
 from .models import Ingredient, Recipe, Restaurant
 from .forms import IngredientForm, RecipeForm, RestaurantForm
 
+from django.shortcuts import render, redirect, get_object_or_404
+from rest_framework.decorators import api_view
+from drf_yasg.utils import swagger_auto_schema
+
 # Ingredient views
 
-class IngredientListView(ListView):
-    model = Ingredient
-    template_name = 'ingredient_list.html'
+@swagger_auto_schema(method='get', responses={200: 'OK'})
+@api_view(['GET'])
+def ingredient_list(request):
+    """
+    Get a list of ingredients.
+    """
+    ingredients = Ingredient.objects.all()
+    return render(request, 'ingredient_list.html', {'ingredients': ingredients})
 
-class IngredientCreateView(CreateView):
-    model = Ingredient
-    form_class = IngredientForm
-    template_name = 'ingredient_form.html'
-    
-    def get_success_url(self):
-        return reverse_lazy('ingredient-list')
+@swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
+@api_view(['GET', 'POST'])
+def ingredient_create(request):
+    """
+    Create a new ingredient.
+    """
+    if request.method == 'POST':
+        form = IngredientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ingredient-list')
+    else:
+        form = IngredientForm()
+    return render(request, 'ingredient_form.html', {'form': form})
 
-class IngredientUpdateView(UpdateView):
-    model = Ingredient
-    form_class = IngredientForm
-    template_name = 'ingredient_form.html'
-    
-    def get_success_url(self):
-        return reverse_lazy('ingredient-list')
+@swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
+@api_view(['GET', 'POST'])
+def ingredient_update(request, pk):
+    """
+    Update an existing ingredient.
+    """
+    ingredient = get_object_or_404(Ingredient, pk=pk)
+    if request.method == 'POST':
+        form = IngredientForm(request.POST, instance=ingredient)
+        if form.is_valid():
+            form.save()
+            return redirect('ingredient-list')
+    else:
+        form = IngredientForm(instance=ingredient)
+    return render(request, 'ingredient_form.html', {'form': form})
 
-class IngredientDeleteView(DeleteView):
-    model = Ingredient
-    template_name = 'ingredient_confirm_delete.html'
-    success_url = reverse_lazy('ingredient-list')
-    
+@swagger_auto_schema(methods=['get', 'delete'], responses={200: 'OK', 204: 'No Content'})
+@api_view(['GET', 'DELETE'])
+def ingredient_delete(request, pk):
+    """
+    Delete an existing ingredient.
+    """
+    ingredient = get_object_or_404(Ingredient, pk=pk)
+    if request.method == 'DELETE':
+        ingredient.delete()
+        return redirect('ingredient-list')
+    return render(request, 'ingredient_confirm_delete.html', {'ingredient': ingredient})
+
 # Recipe views
 
-class RecipeListView(ListView):
-    model = Recipe
-    template_name = 'recipe_list.html'
+@swagger_auto_schema(method='get', responses={200: 'OK'})
+@api_view(['GET'])
+def recipe_list(request):
+    """
+    Get a list of recipes.
+    """
+    recipes = Recipe.objects.all()
+    return render(request, 'recipe_list.html', {'recipes': recipes})
 
-class RecipeCreateView(CreateView):
-    model = Recipe
-    form_class = RecipeForm
-    template_name = 'recipe_form.html'
+@swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
+@api_view(['GET', 'POST'])
+def recipe_create(request):
+    """
+    Create a new recipe.
+    """
+    if request.method == 'POST':
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('recipe-list')
+    else:
+        form = RecipeForm()
+    return render(request, 'recipe_form.html', {'form': form})
 
-    def get_success_url(self):
-        return reverse_lazy('recipe-list')
+@swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
+@api_view(['GET', 'POST'])
+def recipe_update(request, pk):
+    """
+    Update an existing recipe.
+    """
+    recipe = get_object_or_404(Recipe, pk=pk)
+    if request.method == 'POST':
+        form = RecipeForm(request.POST, instance=recipe)
+        if form.is_valid():
+            form.save()
+            return redirect('recipe-list')
+    else:
+        form = RecipeForm(instance=recipe)
+    return render(request, 'recipe_form.html', {'form': form})
 
-class RecipeUpdateView(UpdateView):
-    model = Recipe
-    form_class = RecipeForm
-    template_name = 'recipe_form.html'
-
-    def get_success_url(self):
-        return reverse_lazy('recipe-list')
-
-class RecipeDeleteView(DeleteView):
-    model = Recipe
-    template_name = 'recipe_confirm_delete.html'
-    success_url = reverse_lazy('recipe-list')
+@swagger_auto_schema(methods=['get', 'delete'], responses={200: 'OK', 204: 'No Content'})
+@api_view(['GET', 'DELETE'])
+def recipe_delete(request, pk):
+    """
+    Delete an existing recipe.
+    """
+    recipe = get_object_or_404(Recipe, pk=pk)
+    if request.method == 'DELETE':
+        recipe.delete()
+        return redirect('recipe-list')
+    return render(request, 'recipe_confirm_delete.html', {'recipe': recipe})
 
 # Restaurant views
 
-class RestaurantListView(ListView):
-    model = Restaurant
-    template_name = 'restaurant_list.html'
+@swagger_auto_schema(method='get', responses={200: 'OK'})
+@api_view(['GET'])
+def restaurant_list(request):
+    """
+    Get a list of restaurants.
+    """
+    restaurants = Restaurant.objects.all()
+    return render(request, 'restaurant_list.html', {'restaurants': restaurants})
 
-class RestaurantCreateView(CreateView):
-    model = Restaurant
-    form_class = RestaurantForm
-    template_name = 'restaurant_form.html'
+@swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
+@api_view(['GET', 'POST'])
+def restaurant_create(request):
+    """
+    Create a new restaurant.
+    """
+    if request.method == 'POST':
+        form = RestaurantForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant-list')
+    else:
+        form = RestaurantForm()
+    return render(request, 'restaurant_form.html', {'form': form})
 
-    def get_success_url(self):
-        return reverse_lazy('restaurant-list')
+@swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
+@api_view(['GET', 'POST'])
+def restaurant_update(request, pk):
+    """
+    Update an existing restaurant.
+    """
+    restaurant = get_object_or_404(Restaurant, pk=pk)
+    if request.method == 'POST':
+        form = RestaurantForm(request.POST, instance=restaurant)
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant-list')
+    else:
+        form = RestaurantForm(instance=restaurant)
+    return render(request, 'restaurant_form.html', {'form': form})
 
-class RestaurantUpdateView(UpdateView):
-    model = Restaurant
-    form_class = RestaurantForm
-    template_name = 'restaurant_form.html'
-
-    def get_success_url(self):
-        return reverse_lazy('restaurant-list')
-
-class RestaurantDeleteView(DeleteView):
-    model = Restaurant
-    template_name = 'restaurant_confirm_delete.html'
-    success_url = reverse_lazy('restaurant-list')
+@swagger_auto_schema(methods=['get', 'delete'], responses={200: 'OK', 204: 'No Content'})
+@api_view(['GET', 'DELETE'])
+def restaurant_delete(request, pk):
+    """
+    Delete an existing restaurant.
+    """
+    restaurant = get_object_or_404(Restaurant, pk=pk)
+    if request.method == 'DELETE':
+        restaurant.delete()
+        return redirect('restaurant-list')
+    return render(request, 'restaurant_confirm_delete.html', {'restaurant': restaurant})

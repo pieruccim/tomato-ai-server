@@ -1,6 +1,8 @@
-<h1>{% if form.instance.pk %}Update{% else %}Create{% endif %} Restaurant</h1>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Save</button>
-</form>
+{% block content %}
+  <h2>Create/Update Restaurant</h2>
+  <form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}

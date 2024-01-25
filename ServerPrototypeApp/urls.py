@@ -1,27 +1,28 @@
 from django.urls import path
 from .views import (
-    IngredientListView, IngredientCreateView, IngredientUpdateView, IngredientDeleteView,
-    RecipeListView, RecipeCreateView, RecipeUpdateView, RecipeDeleteView,
-    RestaurantListView, RestaurantCreateView, RestaurantUpdateView, RestaurantDeleteView
+    ingredient_list, ingredient_create, ingredient_update, ingredient_delete,
+    recipe_list, recipe_create, recipe_update, recipe_delete,
+    restaurant_list, restaurant_create, restaurant_update, restaurant_delete
 )
 
 urlpatterns = [
     
-    # Ingredient endpoints
-    path('ingredients/', IngredientListView.as_view(), name='ingredient-list'),
-    path('ingredients/create/', IngredientCreateView.as_view(), name='ingredient-create'),
-    path('ingredients/<int:pk>/update/', IngredientUpdateView.as_view(), name='ingredient-update'),
-    path('ingredients/<int:pk>/delete/', IngredientDeleteView.as_view(), name='ingredient-delete'),
+    # Ingredient URLs
+    path('ingredients/', ingredient_list, name='ingredient-list'),
+    path('ingredients/create/', ingredient_create, name='ingredient-create'),
+    path('ingredients/<int:pk>/update/', ingredient_update, name='ingredient-update'),
+    path('ingredients/<int:pk>/delete/', ingredient_delete, name='ingredient-delete'),
 
-    # Recipe endpoints
-    path('recipes/', RecipeListView.as_view(), name='recipe-list'),
-    path('recipes/create/', RecipeCreateView.as_view(), name='recipe-create'),
-    path('recipes/<int:pk>/update/', RecipeUpdateView.as_view(), name='recipe-update'),
-    path('recipes/<int:pk>/delete/', RecipeDeleteView.as_view(), name='recipe-delete'),
+    # Recipe URLs
+    path('recipes/', recipe_list, name='recipe-list'),
+    path('recipes/create/', recipe_create, name='recipe-create'),
+    path('recipes/<int:pk>/update/', recipe_update, name='recipe-update'),
+    path('recipes/<int:pk>/delete/', recipe_delete, name='recipe-delete'),
 
-    # Restaurant endpoints
-    path('restaurants/', RestaurantListView.as_view(), name='restaurant-list'),
-    path('restaurants/create/', RestaurantCreateView.as_view(), name='restaurant-create'),
-    path('restaurants/<int:pk>/update/', RestaurantUpdateView.as_view(), name='restaurant-update'),
-    path('restaurants/<int:pk>/delete/', RestaurantDeleteView.as_view(), name='restaurant-delete'),
+    # Restaurant URLs
+    path('restaurants/', restaurant_list, name='restaurant-list'),
+    path('restaurants/create/', restaurant_create, name='restaurant-create'),
+    path('restaurants/<int:pk>/update/', restaurant_update, name='restaurant-update'),
+    path('restaurants/<int:pk>/delete/', restaurant_delete, name='restaurant-delete'),
+    
 ]

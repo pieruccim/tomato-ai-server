@@ -1,4 +1,8 @@
-<h1>Ingredient List</h1>
-{% for ingredient in object_list %}
-  <p><a >{{ ingredient.name }}</a></p>
-{% endfor %}
+{% block content %}
+  <h2>Ingredient List</h2>
+  <ul>
+    {% for ingredient in ingredients %}
+      <li>{{ ingredient.name }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

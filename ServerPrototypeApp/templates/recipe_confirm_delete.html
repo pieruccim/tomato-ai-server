@@ -1,6 +1,9 @@
-<h1>Delete Recipe</h1>
-<p>Are you sure you want to delete {{ object.title }}?</p>
-<form method="post" action="{% url 'recipe-delete' object.pk %}">
-  {% csrf_token %}
-  <button type="submit">Confirm</button>
-</form>
+{% block content %}
+  <h2>Confirm Deletion</h2>
+  <p>Are you sure you want to delete "{{ recipe.name }}"?</p>
+  <form method="delete" action="{% url 'recipe-delete' recipe.pk %}">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'recipe-list' %}">Cancel</a>
+  </form>
+{% endblock %}
