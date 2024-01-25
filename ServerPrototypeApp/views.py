@@ -14,11 +14,17 @@ class IngredientCreateView(CreateView):
     model = Ingredient
     form_class = IngredientForm
     template_name = 'ingredient_form.html'
+    
+    def get_success_url(self):
+        return reverse_lazy('ingredient-list')
 
 class IngredientUpdateView(UpdateView):
     model = Ingredient
     form_class = IngredientForm
     template_name = 'ingredient_form.html'
+    
+    def get_success_url(self):
+        return reverse_lazy('ingredient-list')
 
 class IngredientDeleteView(DeleteView):
     model = Ingredient
