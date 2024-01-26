@@ -19,6 +19,27 @@ def ingredient_list(request):
     ingredients = Ingredient.objects.all()
     return render(request, 'ingredient_list.html', {'ingredients': ingredients})
 
+@swagger_auto_schema(method='get', responses={200: 'OK'})
+@api_view(['GET'])
+def ingredient_list_in_recipe(request, recipe_id):
+    """
+    Get a list of ingredients related to a specific recipe.
+    """
+    recipe = Recipe.objects.get(_recipe_id=recipe_id)
+    ingredients = recipe.ingredients.all()
+    return render(request, 'ingredient_list.html', {'ingredients': ingredients})
+
+@swagger_auto_schema(method='get', responses={200: 'OK'})
+@api_view(['GET'])
+def ingredient_list_used_by_restaurant(request, restaurant_id):
+    """
+    Get a list of ingredients used by a specific restaurant.
+    """
+    restaurant = Restaurant.objects.get(_restaurant_id=restaurant_id)
+    recipes = Recipe.objects.filter(_restaurant=restaurant)
+    ingredients = Ingredient.objects.filter(recipe__in=recipes)
+    return render(request, 'ingredient_list.html', {'ingredients': ingredients})
+
 @swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
 @api_view(['GET', 'POST'])
 def ingredient_create(request):
@@ -33,6 +54,7 @@ def ingredient_create(request):
     else:
         form = IngredientForm()
     return render(request, 'ingredient_form.html', {'form': form})
+
 
 @swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
 @api_view(['GET', 'POST'])
@@ -76,6 +98,26 @@ def recipe_list(request):
     Get a list of recipes.
     """
     recipes = Recipe.objects.all()
+    return render(request, 'recipe_list.html', {'recipes': recipes})
+
+@swagger_auto_schema(method='get', responses={200: 'OK'})
+@api_view(['GET'])
+def recipe_list_by_restaurant(request, restaurant_id):
+    """
+    Get a list of recipes related to a specific restaurant.
+    """
+    restaurant = Restaurant.objects.get(_restaurant_id=restaurant_id)
+    recipes = Recipe.objects.filter(_restaurant=restaurant)
+    return render(request, 'recipe_list.html', {'recipes': recipes})
+
+@swagger_auto_schema(method='get', responses={200: 'OK'})
+@api_view(['GET'])
+def recipe_list_by_ingredient(request, ingredient_id):
+    """
+    Get a list of recipes that contain a specific ingredient.
+    """
+    ingredient = Ingredient.objects.get(_ingredient_id=ingredient_id)
+    recipes = Recipe.objects.filter(_ingredients=ingredient)
     return render(request, 'recipe_list.html', {'recipes': recipes})
 
 @swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
@@ -133,9 +175,15 @@ def recipe_detail(request, pk):
 @api_view(['GET'])
 def restaurant_list(request):
     """
-    Get a list of restaurants.
+    Get a list of restaurants. Optionally, filter by recipe_id.
     """
-    restaurants = Restaurant.objects.all()
+    recipe_id = request.GET.get('recipe_id')
+
+    if recipe_id:
+        restaurants = Restaurant.objects.filter(recipe___recipe_id=recipe_id)
+    else:
+        restaurants = Restaurant.objects.all()
+
     return render(request, 'restaurant_list.html', {'restaurants': restaurants})
 
 @swagger_auto_schema(methods=['get', 'post'], responses={200: 'OK', 201: 'Created'})
