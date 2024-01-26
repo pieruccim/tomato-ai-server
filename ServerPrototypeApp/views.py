@@ -54,7 +54,7 @@ def ingredient_update(request, pk):
 @api_view(['POST'])
 def ingredient_delete(request, pk):
     """
-    Delete an existing ingredient or display deletion confirmation.
+    Delete an existing ingredient.
     """
     ingredient = get_object_or_404(Ingredient, pk=pk)
     if request.method == 'POST':
@@ -113,7 +113,7 @@ def recipe_update(request, pk):
 @api_view(['POST'])
 def recipe_delete(request, pk):
     """
-    Delete an existing recipe or display deletion confirmation.
+    Delete an existing recipe.
     """
     recipe = get_object_or_404(Recipe, pk=pk)
     if request.method == 'POST':
@@ -173,7 +173,7 @@ def restaurant_update(request, pk):
 @api_view(['POST'])
 def restaurant_delete(request, pk):
     """
-    Delete an existing restaurant or display deletion confirmation.
+    Delete an existing restaurant.
     """
     restaurant = get_object_or_404(Restaurant, pk=pk)
     if request.method == 'POST':
