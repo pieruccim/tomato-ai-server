@@ -2,7 +2,8 @@
   <h2>Recipe List</h2>
   <ul>
     {% for recipe in recipes %}
-      <li>{{ recipe.name }}</li>
+      <li><a href="{% url 'recipe-detail' pk=recipe.pk %}">{{ recipe.title }}</a></li>
     {% endfor %}
   </ul>
 {% endblock %}
+
