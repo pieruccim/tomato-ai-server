@@ -50,17 +50,22 @@ def ingredient_update(request, pk):
         form = IngredientForm(instance=ingredient)
     return render(request, 'ingredient_form.html', {'form': form})
 
-@swagger_auto_schema(methods=['get', 'delete'], responses={200: 'OK', 204: 'No Content'})
-@api_view(['GET', 'DELETE'])
+@swagger_auto_schema(method='post', responses={200: 'OK', 204: 'No Content'})
+@api_view(['POST'])
 def ingredient_delete(request, pk):
     """
     Delete an existing ingredient or display deletion confirmation.
     """
     ingredient = get_object_or_404(Ingredient, pk=pk)
-    if request.method == 'DELETE':
+    if request.method == 'POST':
         ingredient.delete()
         return redirect('ingredient-list')
-    return render(request, 'ingredient_confirm_delete.html', {'ingredient': ingredient})
+
+@swagger_auto_schema(methods=['get'], responses={200: 'OK'})
+@api_view(['GET'])
+def ingredient_detail(request, pk):
+    ingredient = get_object_or_404(Ingredient, pk=pk)
+    return render(request, 'ingredient_detail.html', {'ingredient': ingredient})
 
 # Recipe views
 
@@ -104,17 +109,23 @@ def recipe_update(request, pk):
         form = RecipeForm(instance=recipe)
     return render(request, 'recipe_form.html', {'form': form})
 
-@swagger_auto_schema(methods=['get', 'delete'], responses={200: 'OK', 204: 'No Content'})
-@api_view(['GET', 'DELETE'])
+@swagger_auto_schema(methods=['post'], responses={200: 'OK', 204: 'No Content'})
+@api_view(['POST'])
 def recipe_delete(request, pk):
     """
     Delete an existing recipe or display deletion confirmation.
     """
     recipe = get_object_or_404(Recipe, pk=pk)
-    if request.method == 'DELETE':
+    if request.method == 'POST':
         recipe.delete()
         return redirect('recipe-list')
-    return render(request, 'recipe_confirm_delete.html', {'recipe': recipe})
+
+@swagger_auto_schema(methods=['get'], responses={200: 'OK'})
+@api_view(['GET'])
+def recipe_detail(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
+    return render(request, 'recipe_detail.html', {'recipe': recipe})
+
 
 # Restaurant views
 
@@ -158,14 +169,19 @@ def restaurant_update(request, pk):
         form = RestaurantForm(instance=restaurant)
     return render(request, 'restaurant_form.html', {'form': form})
 
-@swagger_auto_schema(methods=['get', 'delete'], responses={200: 'OK', 204: 'No Content'})
-@api_view(['GET', 'DELETE'])
+@swagger_auto_schema(method='post', responses={200: 'OK', 204: 'No Content'})
+@api_view(['POST'])
 def restaurant_delete(request, pk):
     """
     Delete an existing restaurant or display deletion confirmation.
     """
     restaurant = get_object_or_404(Restaurant, pk=pk)
-    if request.method == 'DELETE':
+    if request.method == 'POST':
         restaurant.delete()
         return redirect('restaurant-list')
-    return render(request, 'restaurant_confirm_delete.html', {'restaurant': restaurant})
+
+@swagger_auto_schema(methods=['get'], responses={200: 'OK'})
+@api_view(['GET'])
+def restaurant_detail(request, pk):
+    restaurant = get_object_or_404(Restaurant, pk=pk)
+    return render(request, 'restaurant_detail.html', {'restaurant': restaurant})
