@@ -23,7 +23,7 @@ def ingredient_list(request):
 @api_view(['GET', 'POST'])
 def ingredient_create(request):
     """
-    Create a new ingredient.
+    Create a new ingredient or display creation form.
     """
     if request.method == 'POST':
         form = IngredientForm(request.POST)
@@ -38,7 +38,7 @@ def ingredient_create(request):
 @api_view(['GET', 'POST'])
 def ingredient_update(request, pk):
     """
-    Update an existing ingredient.
+    Update an existing ingredient or display update form.
     """
     ingredient = get_object_or_404(Ingredient, pk=pk)
     if request.method == 'POST':
@@ -54,7 +54,7 @@ def ingredient_update(request, pk):
 @api_view(['GET', 'DELETE'])
 def ingredient_delete(request, pk):
     """
-    Delete an existing ingredient.
+    Delete an existing ingredient or display deletion confirmation.
     """
     ingredient = get_object_or_404(Ingredient, pk=pk)
     if request.method == 'DELETE':
@@ -77,7 +77,7 @@ def recipe_list(request):
 @api_view(['GET', 'POST'])
 def recipe_create(request):
     """
-    Create a new recipe.
+    Create a new recipe or display creation form.
     """
     if request.method == 'POST':
         form = RecipeForm(request.POST)
@@ -92,7 +92,7 @@ def recipe_create(request):
 @api_view(['GET', 'POST'])
 def recipe_update(request, pk):
     """
-    Update an existing recipe.
+    Update an existing recipe or display update form.
     """
     recipe = get_object_or_404(Recipe, pk=pk)
     if request.method == 'POST':
@@ -108,7 +108,7 @@ def recipe_update(request, pk):
 @api_view(['GET', 'DELETE'])
 def recipe_delete(request, pk):
     """
-    Delete an existing recipe.
+    Delete an existing recipe or display deletion confirmation.
     """
     recipe = get_object_or_404(Recipe, pk=pk)
     if request.method == 'DELETE':
@@ -131,7 +131,7 @@ def restaurant_list(request):
 @api_view(['GET', 'POST'])
 def restaurant_create(request):
     """
-    Create a new restaurant.
+    Create a new restaurant or display creation form.
     """
     if request.method == 'POST':
         form = RestaurantForm(request.POST)
@@ -146,7 +146,7 @@ def restaurant_create(request):
 @api_view(['GET', 'POST'])
 def restaurant_update(request, pk):
     """
-    Update an existing restaurant.
+    Update an existing restaurant or display update form.
     """
     restaurant = get_object_or_404(Restaurant, pk=pk)
     if request.method == 'POST':
@@ -162,7 +162,7 @@ def restaurant_update(request, pk):
 @api_view(['GET', 'DELETE'])
 def restaurant_delete(request, pk):
     """
-    Delete an existing restaurant.
+    Delete an existing restaurant or display deletion confirmation.
     """
     restaurant = get_object_or_404(Restaurant, pk=pk)
     if request.method == 'DELETE':
