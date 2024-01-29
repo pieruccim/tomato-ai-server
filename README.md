@@ -36,7 +36,7 @@ The application is a server side service to learn how to use Django Framework.
    docker-compose up
 ```
 
-##Running Tests
+## Running Tests
 1. Navigate to the project directory with Dockerfile and docker-compose.yaml:
 ```bash
    cd tomato-ai-server
